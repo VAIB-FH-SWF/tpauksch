@@ -2,7 +2,7 @@
 //              Filename:   ReadFile.cpp
 //
 //          Beschreibung:   Programmierung mit C++ 1,
-//                          Blatt 7 / Aufgabe 3.1,
+//                          Blatt 7 / Aufgabe 3.2,
 //                          Kennwerte einer Zahlenreihe aus einer Datei.
 //
 //              Aufgabe:    3.2
