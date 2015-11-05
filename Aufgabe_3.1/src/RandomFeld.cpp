@@ -10,7 +10,7 @@
 //      Praktikumsgruppe:   [V-08:30] - Is-VAI-B1A
 //                Author:   Tim Pauksch
 //      Erstellungsdatum:   24.10.2015
-//    Letzte Anpassungen:   24.10.2015
+//    Letzte Anpassungen:   05.11.2015
 //
 //               Version:   1.0
 //              Compiler:   g++
@@ -19,8 +19,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
-#include <ctime>
-
+//#include <ctime> //Benoetigt fuer srand(time(NULL));
 
 using namespace std;
 
@@ -29,15 +28,22 @@ using namespace std;
 //=============================================================================
 
 // Funktion zum befuellen eines Feldes mit Zufallszahlen
-void initField(double field[], double fieldRange, int randomRange){
-   srand(time(NULL));
+void initField(double field[], double fieldRange, int randomRange) {
+   /**
+    *   Die Funktion srand(time(NULL)) liefert einen Startwert
+    *   fuer die Berechnung der Zufallszahlen. Um Pseudo-
+    *   Zufallszahlen generieren zu lassen muss die
+    *   folgende Zeile wieder integriert werden.
+    */
+
+   //srand(time(NULL));
    for (int i = 0; i < fieldRange; ++i) {
       field[i] = rand() % randomRange;
    }
 }
 
-// Funktion zur Ermittlung des arythmetischen Mittelwertes
-double returnAverageValue(double field[], double fieldRange){
+// Funktion zur Ermittlung des arithmetischen Mittelwertes
+double returnAverageValue(double field[], double fieldRange) {
    double averageValue = 0;
 
    for (int i = 0; i < fieldRange; ++i) {
@@ -49,7 +55,7 @@ double returnAverageValue(double field[], double fieldRange){
 }
 
 // Funktion zur Wiedergabe des kleinsten Wertes im Feld
-double returnMinimum(double field[], double fieldRange, int randomRange){
+double returnMinimum(double field[], double fieldRange, int randomRange) {
    double minValue = randomRange + 1;
    for (int i = 0; i < fieldRange; ++i) {
       if (field[i] < minValue) {
@@ -59,8 +65,8 @@ double returnMinimum(double field[], double fieldRange, int randomRange){
    return minValue;
 }
 
-// Funktion zur Wiedergabe des größten Wertes im Feld
-double returnMaximum(double field[], double fieldRange, int randomRange){
+// Funktion zur Wiedergabe des groeßten Wertes im Feld
+double returnMaximum(double field[], double fieldRange, int randomRange) {
    double maxValue = -1;
    for (int i = 0; i < fieldRange; ++i) {
       if (field[i] > maxValue) {
@@ -76,20 +82,19 @@ int main() {
    // Variablendeclaration
    //=============================================================================
 
-   int      fieldRange      =   100;                // Feldlaenge
-   int      counter         =   0;                  // Hilfsvariable fuer Zwischenausgabe
-   int      randomRange     =   51;                 // Grenze fuer Zufallszahlen
-   int      minValue        =   0;                  // Kleinste generierte Zufallszahl
-   int      maxValue        =   0;                  // Groeßte generierte Zufallszahl
-   double   averageValue    =   0;                  // Arythetischer Mittelwert des Felds
-   double   a[fieldRange];                          // Feld für die Aufnahme von Zufallszahlen
-
+   int fieldRange       = 100;      // Feldlaenge
+   int counter          = 0;        // Hilfsvariable fuer Zwischenausgabe
+   int randomRange      = 51;       // Grenze fuer Zufallszahlen
+   int minValue         = 0;        // Kleinste generierte Zufallszahl
+   int maxValue         = 0;        // Groeßte generierte Zufallszahl
+   double averageValue  = 0;        // Arithetischer Mittelwert des Feldes
+   double a[fieldRange];            // Feld für die Aufnahme von Zufallszahlen
 
    //=============================================================================
    // Hauptprogramm
    //=============================================================================
 
-   // Befuellen des Felds mit Zufallszahlen
+   // Befuellen des Feldes mit Zufallszahlen
    initField(a, fieldRange, randomRange);
 
    // Rueckgabe des minimalen Wertes aus dem Feld
@@ -105,7 +110,7 @@ int main() {
    // Ausgabe
    //=============================================================================
 
-   // Ausgabe des Felds mit 10 Werten pro Zeile
+   // Ausgabe des Feldes mit 10 Werten pro Zeile
    cout << "Ausgabe eines mit Zufallszahlen gefüllten Feldes: " << endl;
    for (int i = 0; i < 10; ++i) {
       for (int j = 0; j < 10; ++j) {
@@ -115,15 +120,14 @@ int main() {
       cout << endl;
    }
 
-   //Ausgabe des arythmetischen Mittelwertes
+   //Ausgabe des arithmetischen Mittelwertes
    cout << endl;
-   cout << "Arythmetisches Mittel: " << averageValue << endl;
+   cout << "Arithmetisches Mittel: " << averageValue << endl;
 
    //Ausgabe des Min- und Max-Wertes
    cout << endl;
    cout << "Kleinster Feld-Wert: " << minValue << endl;
    cout << "Größter Feld-Wert: " << maxValue << endl;
-
 
    return 0;
 }

@@ -10,14 +10,13 @@
 //      Praktikumsgruppe:   [V-08:30] - Is-VAI-B1A
 //                Author:   Tim Pauksch
 //      Erstellungsdatum:   25.10.2015
-//    Letzte Anpassungen:   25.10.2015
+//    Letzte Anpassungen:   05.11.2015
 //
 //               Version:   1.0
 //              Compiler:   g++
 //=============================================================================
 
 #include <iostream>
-#include <cstdlib>
 #include <iomanip>
 
 
@@ -29,11 +28,11 @@ int main() {
    // Variablendeclaration
    //=============================================================================
 
-   int a        =   16333;      //
-   int b        =   25887;      //
+   int a        =   16333;      // Faktor fuer vorangegangenen Zufallswert
+   int b        =   25887;      // Verschiebung
    int m        =   256*128;    // Anzahl der Moeglichen Zufallszahlen
-   int x        =   0;          //
-   int x2       =   0;          //
+   int x        =   0;          // Initalwert
+   int x2       =   0;          // Zufallswert an Position i
    int range    =   10;         // Anzahl der Pseudozufallszahlen
    int width    =   6;          // Breite der Zahlen-Ausgabe
 
