@@ -40,6 +40,10 @@ int main() {
    // Hauptprogramm
    //=============================================================================
 
+   /**
+    * Das oeffnen der Datei scheint in Eclipse nicht zu funktionieren
+    * in der Console ist das Programm aber problemlos ausfuehrbar
+    */
    // Oeffnen der Datei
    ifs.open("daten.txt", ifstream::in);
    if (!ifs) {
