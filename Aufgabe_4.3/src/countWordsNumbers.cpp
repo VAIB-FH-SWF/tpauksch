@@ -10,7 +10,7 @@
 //      Praktikumsgruppe:   [V-08:30] - Is-VAI-B1A
 //                Author:   Tim Pauksch
 //      Erstellungsdatum:   08.11.2015
-//    Letzte Anpassungen:   08.11.2015
+//    Letzte Anpassungen:   19.11.2015
 //
 //               Version:   1.0
 //              Compiler:   g++
@@ -36,8 +36,7 @@ int main() {
    int  summeDigit      = 0;           //Summe der Ziffern
    int  summeWorte      = 0;           //Summe der Worte
    int  summeZahlen     = 0;           //Summe der Zahlen
-   bool wort = false;                  //Zustandsvaiable (Wort: true/false)
-   bool zahl = false;                  //Zustandsvaiable (Zahl: true/false)
+   int  zustand         = 0;           //Zustandsvaiable (Sonstiges:0, Wort:1, Zahl:2)
    char c;                             //Zwischenspeicher für Buchstabe/Zahl
    string datei         = "text.txt";  //Dateiname
    ifstream ifs;                       //Datei-Stream
@@ -85,42 +84,42 @@ int main() {
    //Prüfung der einzelnen Zeichen
    for (i = 0; text[i] != '\0'; i++) {
       if (isalpha(text[i])) {
-         summeAlpha++;
 
          //Prüfung ob sich der Buchstabe in einem Wort befindet
-         if (wort == false && isalpha(text[i])) {
+         if (zustand == 0) {
             summeWorte++;
          }
 
          //Prüfung ob sich der Buchstabe in einer Zahl befindet
-         if (zahl == true && isalpha(text[i])) {
+         if (zustand == 2) {
             cout << "Fehler. Fehlerhaftes Wort.";
             exit(1);
          }
 
          //Setzen des Zustands für ein Wort
-         wort = true;
+         zustand = 1;
+         summeAlpha++;
 
       } else if (isdigit(text[i])) {
-         summeDigit++;
 
          //Prüfung ob sich die Ziffer in einer Zahl befindet
-         if (zahl == false && isdigit(text[i])) {
+         if (zustand == 0) {
             summeZahlen++;
          }
 
          //Prüfung ob sich die Ziffer in einem Wort befindet
-         if (wort == true && isdigit(text[i])) {
+         if (zustand == 1) {
             cout << "Fehler. Fehlerhafte Zahl.";
             exit(1);
          }
 
          //Setzen des Zustands für eine Zahl
-         zahl = true;
+         zustand = 2;
+         summeDigit++;
       } else {
+
          //Setzen des Zustands für übrige Zeichen
-         wort = false;
-         zahl = false;
+         zustand = 0;
       }
    }
 
