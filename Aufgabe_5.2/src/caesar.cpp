@@ -38,10 +38,10 @@ void feld_wenden(char a[], unsigned int n){
 
 void feld_links_rotieren(char a[], unsigned int n, unsigned int shift){
    //Eingabekontrolle
+   shift = shift % n;                       //Verarbeitung von Vielfachen.
    if (shift == 0){                         //Ende der Funktion, ohne Shift.
       return;
    }
-   shift = shift % n;                       //Verarbeitung von Vielfachen.
 
    //Deklarationen
    int leftLength   = shift;                //Festlegung der Teilbereiche für
@@ -78,10 +78,10 @@ void feld_links_rotieren(char a[], unsigned int n, unsigned int shift){
 
 void feld_rechts_rotieren(char a[], unsigned int n, unsigned int shift){
    //Eingabekontrolle
+   shift = shift % n;                       //Verarbeitung von Vielfachen.
    if (shift == 0){                         //Ende der Funktion, ohne Shift.
       return;
    }
-   shift = shift % n;                       //Verarbeitung von Vielfachen.
 
    int rightShift = n - shift;              //Übersetzung des linken Shift in rechten.
    feld_links_rotieren(a, n, rightShift);   //Aufruf des angepassten linken Shift.
