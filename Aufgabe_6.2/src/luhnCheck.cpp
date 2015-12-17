@@ -10,7 +10,7 @@
 //      Praktikumsgruppe:   [V-08:30] - Is-VAI-B1A
 //                Author:   Tim Pauksch
 //      Erstellungsdatum:   09.12.2015
-//    Letzte Anpassungen:   12.12.2015
+//    Letzte Anpassungen:   16.12.2015
 //
 //               Version:   1.0
 //              Compiler:   g++
@@ -48,7 +48,7 @@ void checkValidString(string inputString){
 
 //Funktion zur Prüfung eines Zahlen-Strings nach dem Luhn-Algorithmus.
 bool luhn_check(string number){
-   checkValidString(number);    //Prüfung auf gültige eingabe.
+   checkValidString(number);    //Prüfung auf gültige Eingabe.
 
    bool valid    = false;       //Rückgabevariable.
    int  length   = 0;           //Länge des Strings.

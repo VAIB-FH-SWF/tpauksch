@@ -10,7 +10,7 @@
 //      Praktikumsgruppe:   [V-08:30] - Is-VAI-B1A
 //                Author:   Tim Pauksch
 //      Erstellungsdatum:   05.12.2015
-//    Letzte Anpassungen:   09.12.2015
+//    Letzte Anpassungen:   16.12.2015
 //
 //               Version:   1.0
 //              Compiler:   g++
@@ -135,7 +135,7 @@ int main(){
    //Beispielhaftes Ausführen der Funktionen
    matrix_diag(matDiag, nmat, 4, 1);        //matrix_diag(Feld, Feldbreite, Anz. Diagonale, Füllwert)
    matrix_frame(matFrame, nmat, 2, 2);      //matrix_frame(Feld, Feldbreite, Rahmenbreite, Füllwert)
-   matrix_dreieck(matDreieck, nmat, 5, 1);  //matrix_dreieck(Feld, Feldbreite, Dreieckhöhe, Füllwert)
+   matrix_dreieck(matDreieck, nmat, 3, 1);  //matrix_dreieck(Feld, Feldbreite, Dreieckhöhe, Füllwert)
 
    //=============================================================================
    // Ausgabe
