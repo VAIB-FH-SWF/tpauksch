@@ -3,10 +3,10 @@
 ######################
 .metadata
 */.metadata
-.cproject
-*/.cproject
-.project
-*/.project
+#.cproject
+#*/.cproject
+#.project
+#*/.project
 Debug/*
 */Debug/*
 Release/*
@@ -41,4 +41,4 @@ Desktop.ini
 # Eclipse
 ######################
 
-*/.settings/*
+#*/.settings/*
