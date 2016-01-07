@@ -17,14 +17,26 @@
 //=============================================================================
 
 #include <iostream>
+#include <fstream>
+
 using namespace std;
 
 //=============================================================================
 // Funktionen
 //=============================================================================
 
+struct metaInfo {
+	string coding;
+	int height;
+	int width;
+};
 
+metaInfo getMetaInfo(){
+
+	return tmpMetaInfo;
+}
 
 int main() {
 
+	return 0;
 }
