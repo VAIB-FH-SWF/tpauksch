@@ -23,6 +23,8 @@
 #include <iomanip>
 
 using namespace std;
+const int N = 1000;
+typedef unsigned char Pixel;
 
 //=============================================================================
 // Funktionen
@@ -68,7 +70,6 @@ struct metaInfo {
 	int  dimension[2];
 	string greyscale;
 	void stripeDimension(string input);
-	void print();
 	void initValues();
 };
 
@@ -80,13 +81,6 @@ void metaInfo::stripeDimension(string input){
 
 	dimension[0]  = stringToInt(width);
 	dimension[1]  = stringToInt(height);
-}
-
-void metaInfo::print(){
-	cout << "Coding: " 	<< coding << endl;
-	cout << "Breite: " 	<< dimension[0] << endl;
-	cout << "Höhe: "  	<< dimension[1] << endl;
-	cout << "Max Grauwert: " << greyscale << endl;
 }
 
 void metaInfo::initValues(){
@@ -119,7 +113,90 @@ metaInfo getMetaInfo(string filename) {
 	return tmpMetaInfo;
 }
 
-void readInFile(string inputFile, string outputFile){
+void glaetten( Pixel bild1[N][N], Pixel bild2[N][N], int nz, int ns){
+	for (int i = 0; i < nz; i++){
+		for (int j = 0; j < ns; j++){
+			int summ = 0;
+			if ((i-1 >= 0) || (j-1 >= 0)){
+				summ += bild1[i-1][j-1];
+				summ += bild1[i-1][j];
+				summ += bild1[i-1][j+1];
+
+				summ += bild1[i][j-1];
+				summ += bild1[i][j];
+				summ += bild1[i][j+1];
+
+				summ += bild1[i+1][j-1];
+				summ += bild1[i+1][j];
+				summ += bild1[i+1][j+1];
+
+				bild2[i][j] = summ / 9;
+			}
+		}
+	}
+}
+
+void invertieren(Pixel bild1[N][N], Pixel bild2[N][N], int nz, int ns, int graumax){
+	for (int i = 0; i < nz; i++){
+		for (int j = 0; j < ns; j++){
+			bild2[i][j] = graumax - bild1[i][j];
+		}
+	}
+}
+
+void kantenbildung(Pixel bild1[N][N], Pixel bild2[N][N], int nz, int ns){
+	for (int i = 0; i < nz; i++){
+			for (int j = 0; j < ns; j++){
+				int summ = 0;
+				if ((i-1 >= 0) || (j-1 >= 0)){
+					summ += bild1[i-1][j-1] * 0;
+					summ += bild1[i-1][j] * -1;
+					summ += bild1[i-1][j+1] * 0;
+
+					summ += bild1[i][j-1] * -1;
+					summ += bild1[i][j] * 4;
+					summ += bild1[i][j+1] * -1;
+
+					summ += bild1[i+1][j-1] * 0;
+					summ += bild1[i+1][j] * -1;
+					summ += bild1[i+1][j+1] * 0;
+
+					bild2[i][j] = abs(summ/9);
+				}
+			}
+		}
+}
+
+void schaerfen(Pixel bild1[N][N], Pixel bild2[N][N], int nz, int ns, int graumax){
+	for (int i = 0; i < nz; i++){
+		for (int j = 0; j < ns; j++){
+			int summ = 0;
+			if ((i-1 >= 0) || (j-1 >= 0)){
+				summ += bild1[i-1][j-1] * -1;
+				summ += bild1[i-1][j] * -1;
+				summ += bild1[i-1][j+1] * -1;
+
+				summ += bild1[i][j-1] * -1;
+				summ += bild1[i][j] * 9;
+				summ += bild1[i][j+1] * -1;
+
+				summ += bild1[i+1][j-1] * -1;
+				summ += bild1[i+1][j] * -1;
+				summ += bild1[i+1][j+1] * -1;
+
+				if (summ < 0) {
+					bild2[i][j] = 0;
+				} else if (summ > graumax) {
+					bild2[i][j] = graumax;
+				} else {
+					bild2[i][j] = summ;
+				}
+			}
+		}
+	}
+}
+
+void readInFile(string inputFile, string outputFile, char input){
 	if (inputFile == outputFile) {
 	  cerr << "\nERROR : Fehler. Dateinamen identisch."<< endl;
 	  exit(1);
@@ -127,13 +204,15 @@ void readInFile(string inputFile, string outputFile){
 
 	metaInfo metaInfo;
 	string tmpDimension;
-	metaInfo.initValues();
+
 	int tmp = 0;
 
 	ifstream ifs;
 	ofstream ofs;
 	ifs.open(inputFile.c_str());
 	ofs.open(outputFile.c_str());
+	Pixel bild1[N][N];
+	Pixel bild2[N][N];
 
 	if (!ifs.is_open()) {
 	  cerr << "\nERROR : Failed to open input file " << inputFile << "." << endl;
@@ -145,6 +224,8 @@ void readInFile(string inputFile, string outputFile){
 	  exit(1);
 	}
 
+	metaInfo.initValues();
+
 	getline(ifs, metaInfo.coding);
 	getline(ifs, tmpDimension);
 	metaInfo.stripeDimension(tmpDimension);
@@ -153,13 +234,19 @@ void readInFile(string inputFile, string outputFile){
 	int width = metaInfo.dimension[0];
 	int height  = metaInfo.dimension[1];
 
-	unsigned char image[height][width];
-
 	for (int i = 0; i < height; i++){
 		for (int j = 0; j < width; j++){
 			ifs >> tmp;
-			image[i][j] = tmp;
+			bild1[i][j] = tmp;
 		}
+	}
+
+	switch (input) {
+		case 'g': glaetten(bild1, bild2, height, width); break;
+		case 'i': invertieren(bild1, bild2, height, width, 255); break;
+		case 'k': kantenbildung(bild1, bild2, height, width); break;
+		case 's': schaerfen(bild1, bild2, height, width, 255); break;
+		default:break;
 	}
 
 	ofs << metaInfo.coding << endl;
@@ -168,7 +255,7 @@ void readInFile(string inputFile, string outputFile){
 
 	for (int i = 0; i < height; i++){
 		for (int j = 0; j < width; j++){
-			tmp = image[i][j];
+			tmp = bild2[i][j];
 			ofs << setw(3) << tmp << ' ';
 		}
 		ofs << endl;
@@ -179,6 +266,10 @@ void readInFile(string inputFile, string outputFile){
 }
 
 int main() {
-	readInFile("dreifach.pgm","dreifach.out.pgm");
+	char tmp;
+	cout << "Bitte wählen: g|i|k|s|e" << endl;
+	cin >> tmp;
+
+	readInFile("dreifach.pgm","dreifach.out.pgm", tmp);
 	return 0;
 }
