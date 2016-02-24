@@ -215,8 +215,34 @@ void schaerfen(Pixel bild1[N][N], Pixel bild2[N][N], int nz, int ns,
    }
 }
 
-void fill(Pixel bild){
+void fill(Pixel bild[N][N], int nz, int ns, int inz, int ins, Pixel oldval, Pixel newval){
+   if((inz-1 > 0)){
+      if(bild[inz-1][ins] == oldval){
+            bild[inz-1][ins] = newval;
+            fill(bild, nz, ns, inz-1, ins, oldval, newval);
+      }
+   }
 
+   if((inz+1 > nz)){
+      if(bild[inz+1][ins] == oldval){
+            bild[inz+1][ins] = newval;
+            fill(bild, nz, ns, inz+1, ins, oldval, newval);
+      }
+   }
+
+   if((ins-1 > 0)){
+      if(bild[inz][ins-1] == oldval){
+            bild[inz][ins-1] = newval;
+            fill(bild, nz, ns, inz, ins-1, oldval, newval);
+      }
+   }
+
+   if((ins+1 > ns)){
+      if(bild[inz][ins+1] == oldval){
+            bild[inz][ins+1] = newval;
+            fill(bild, nz, ns, inz, ins+1, oldval, newval);
+      }
+   }
 }
 
 /*
@@ -306,6 +332,9 @@ void readInFile(string inputFile, string outputFile, char input) {
    case 's':
       schaerfen(bild1, bild2, height, width, 255);
       break;
+   case 'f':
+      fill(bild1, height, width ,10 ,10 ,255 ,127);
+      break;
    default:
       break;
    }
@@ -322,7 +351,7 @@ void readInFile(string inputFile, string outputFile, char input) {
     */
    for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
-         ifsInput = bild2[i][j];
+         ifsInput = bild1[i][j];
          ofs << setw(3) << ifsInput << ' ';
       }
       ofs << endl;
@@ -340,8 +369,8 @@ void readInFile(string inputFile, string outputFile, char input) {
 //=============================================================================
 
 int main() {
-   string inputFile = "dreifach.pgm";
-   string outputFile = "dreifach.out.pgm";
+   string inputFile = "kunst.pgm";
+   string outputFile = "kunst.out.pgm";
 
    char userInput;
    cout << "Aufgabe 7.2 - Grauwertbild bearbeiten." << endl;
@@ -350,6 +379,7 @@ int main() {
    cout << "i: Invertierung" << endl;
    cout << "k: Kantenbildung" << endl;
    cout << "s: Schärfung" << endl;
+   cout << "f: Füllen" << endl;
    cout << "e: ende" << endl;
    cout << endl;
    cout << "Auswahl: " << endl;
@@ -360,7 +390,7 @@ int main() {
       exit(1);
    }
 
-   readInFile("dreifach.pgm", "dreifach.out.pgm", userInput);
+   readInFile(inputFile, outputFile, userInput);
    cout << "Programm beendet." << endl;
    return 0;
 }
